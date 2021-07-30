@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Downsize Program</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,700" rel="stylesheet">
+    <link href = "css/jquery-ui.css"  rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="calc-container">
+    <div class="header">
+        <div class="calc-title">Smart Downsize Program</div>
+    </div>
+
+    <div class="content">
+        <div class="price-list">
+            <div class="left-price">
+                <div class="price-value sell_smart_saving">$15,000</div>
+                <div class="price-description">Sell Smart Savings</div>
+            </div>
+
+            <div class="center-price">
+                <div class="price-value purple total_smart_saving">$23,000</div>
+                <div class="price-description">Total Smart Downsize savings</div>
+            </div>
+
+            <div class="right-price">
+                <div class="price-value buy_smart_saving">$8,000</div>
+                <div class="price-description">Buy Smart Savings</div>
+            </div>
+        </div>
+
+        <div class="selection-box">
+            <div class="title">SELECT YOUR COMMISSION RATE:</div>
+            <div class="radio-group">
+                <label class="radio-container">
+                    <input type="radio" checked="checked" name="radio">
+                    <span class="checkmark"></span>5% Commission
+                </label>
+                <label class="radio-container">
+                    <input type="radio" name="radio">
+                    <span class="checkmark"></span>6% Commission
+                </label>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-box">
+                <div id='slider1'></div>
+                <div class="slider-info">
+                    <div class="slider-start-title">$150,000</div>
+                    <div class="slider-end-title">$1,000,000</div>
+                </div>
+            </div>
+
+            <div class="slider-box">
+                <div id='slider2'></div>
+                <div class="slider-info">
+                    <div class="slider-start-title">$150,000</div>
+                    <div class="slider-end-title">$1,000,000</div>
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Traditional Seller's Agent</th>
+                    <th>&nbsp;</th>
+                    <th>Sell Smart Program</th>
+                    <th>&nbsp;</th>
+                    <th>Sell Smart Savings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="traditionalSA">$12,000</td>
+                    <td>-</td>
+                    <td class="smartProgramSell">$12,000</td>
+                    <td>=</td>
+                    <td class="sell_smart_saving">$8,000</td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Traditional Buyer's Agent</th>
+                    <th>&nbsp;</th>
+                    <th>Smart Program</th>
+                    <th>&nbsp;</th>
+                    <th>Buy Smart Savings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="traditionalBA">$12,000</td>
+                    <td>-</td>
+                    <td class="smartProgramBuy">$12,000</td>
+                    <td>=</td>
+                    <td class="buy_smart_saving">$8,000</td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>Total smart downsize savings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="total_smart_saving">$8,000</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="footer">
+        <div class="title">Adjust to match the value of your home</div>
+        <button class="btn btn-purple">Start Now</button>
+    </div>
+</div>
+
+<!-- <script src="js/jquery.js"></script> -->
+<!-- <script src="js/jquery-ui.js"></script> -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+
+<script>
+
+    var initialValue = 150000;
+    var sell_saving = 0;
+    var buy_saving = 0;
+
+    var sliderTooltip1 = function(event, ui) {
+        var curValue = ui.value || initialValue;
+        var tooltip = '<div class="overbox"><div class="sub-title">Sales Price</div><div class="price-title">$' + formatMoney(curValue) + '</div></div>';
+        $('#slider1 .ui-slider-handle').html(tooltip);
+
+        calcSellSaving(curValue);
+    }
+
+    function calcSellSaving (sales_price) {
+        var traditional_seller_agent = sales_price * 0.025;
+        var sell_smart_program = sales_price * 0.01;
+        sell_saving = traditional_seller_agent - sell_smart_program;
+        $('.sell_smart_saving').text('$' + formatMoney(sell_saving));
+        $('.traditionalSA').text('$' + formatMoney(traditional_seller_agent));
+        $('.smartProgramSell').text('$' + formatMoney(sell_smart_program));
+        calcTotal();
+    }
+
+    function calcBuySaving (purchase_price) {
+        var traditional_buyer_agent = purchase_price * 0.025;
+        var smart_program = purchase_price * 0.015;
+        buy_saving = traditional_buyer_agent - smart_program;
+        $('.buy_smart_saving').text('$' + formatMoney(buy_saving));
+        $('.traditionalBA').text('$' + formatMoney(traditional_buyer_agent));
+        $('.smartProgramBuy').text('$' + formatMoney(smart_program));
+        calcTotal();
+    }
+
+    function calcTotal() {
+        var total = formatMoney(sell_saving + buy_saving);
+        $('.total_smart_saving').text('$' + total);
+    }
+
+    $("#slider1").slider({
+        value: initialValue,
+        min: 150000,
+        max: 10000000,
+        step: 10,
+        create: sliderTooltip1,
+        slide: sliderTooltip1
+    });
+
+    var sliderTooltip2 = function(event, ui) {
+        var curValue = ui.value || initialValue;
+        var tooltip = '<div class="overbox"><div class="sub-title">Purchase Price</div><div class="price-title">$' + formatMoney(curValue) + '</div></div>';
+        $('#slider2 .ui-slider-handle').html(tooltip);
+        calcBuySaving(curValue);
+    }
+
+    $("#slider2").slider({
+        value: initialValue,
+        min: 150000,
+        max: 10000000,
+        step: 10,
+        create: sliderTooltip2,
+        slide: sliderTooltip2
+    });
+
+    function formatMoney(n, c, d, t) {
+        var c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+
+        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t);
+    };
+
+
+</script>
+</body>
+</html>
